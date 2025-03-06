@@ -16,8 +16,7 @@ group 'com.victorblaess.native_flutter_proxy'
 android {
 
     namespace 'com.victorblaess.native_flutter_proxy'
-
-    compileSdkVersion 34
+    compileSdk 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
