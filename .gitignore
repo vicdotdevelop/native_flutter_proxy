@@ -6,5 +6,12 @@
 
 build/
 
+coverage/
+
+# IntelliJ related
 .idea/
+!.idea/codeStyleConfig.xml
+
+# Visual Studio Code related
 .vscode/
+!/.vscode/settings.json
