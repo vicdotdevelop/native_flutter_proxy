@@ -1,23 +1,30 @@
+## 0.2.0
+
+* update SDK constraints.
+* updates documentation.
+* adds tests.
+* adds .vscode and .idea IDE configuration settings.
+
 ## 0.1.14
 
-* fix MissingPluginException on Android。
+* fix MissingPluginException on Android.
 
 ## 0.1.13
 
-* dartfrmt fix。
+* dartfrmt fix.
 
 ## 0.1.12
 
-* bug fix。
+* bug fix.
 
 ## 0.1.11
 
-* added example and enhanced null-safety on proxy set。
+* added example and enhanced null-safety on proxy set.
 
 ## 0.1.10
 
-* enhance readme。
+* enhance readme.
 
 ## 0.1.9
 
-* add example。
+* add example.
