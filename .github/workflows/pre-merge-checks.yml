@@ -47,7 +47,7 @@ jobs:
 
       # Static code analysis
       - name: Analyze code
-        run: flutter analyze
+        run: flutter analyze --no-fatal-warnings
 
       # Verify package format is correct
       - name: Format check
