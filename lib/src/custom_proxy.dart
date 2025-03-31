@@ -62,8 +62,7 @@ class CustomProxy {
     // Check if the proxy string is empty
     if (proxy.isEmpty) {
       assert(
-          false, 'Proxy string passed to CustomProxy.fromString() is invalid.');
-
+          false, 'Proxy string passed to CustomProxy.fromString() is invalid.',);
       return null;
     }
 

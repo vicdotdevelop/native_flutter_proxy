@@ -46,14 +46,12 @@ final class CustomProxyHttpOverride extends HttpOverrides {
     final client = super.createHttpClient(context)
       ..findProxy = (uri) {
         assert(proxyString.isNotEmpty,
-            'You must set a valid proxy if you enable it!');
-
+            'You must set a valid proxy if you enable it!',);
         return 'PROXY $proxyString;';
       };
-
-    if (allowBadCertificates)
+    if (allowBadCertificates) {
       client.badCertificateCallback = (cert, host, port) => true;
-
+    }
     return client;
   }
 }
