@@ -62,7 +62,9 @@ class CustomProxy {
     // Check if the proxy string is empty
     if (proxy.isEmpty) {
       assert(
-          false, 'Proxy string passed to CustomProxy.fromString() is invalid.',);
+        false,
+        'Proxy string passed to CustomProxy.fromString() is invalid.',
+      );
       return null;
     }
 
@@ -79,8 +81,7 @@ class CustomProxy {
   ///
   /// Sets [HttpOverrides.global] to a new instance of [CustomProxyHttpOverride]
   /// configured with the proxy settings from this object's string representation.
-  void enable() =>
-      HttpOverrides.global = CustomProxyHttpOverride.withProxy(toString());
+  void enable() => HttpOverrides.global = CustomProxyHttpOverride.withProxy(toString());
 
   /// Disables the global HTTP proxy settings by setting HttpOverrides.global to null.
   ///

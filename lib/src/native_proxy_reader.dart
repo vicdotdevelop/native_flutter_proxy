@@ -23,9 +23,7 @@ abstract final class NativeProxyReader {
 
   /// Get the proxy settings from the native platform.
   static Future<ProxySetting> get proxySetting async {
-    return _channel
-        .invokeMapMethod<String, dynamic>('getProxySetting')
-        .then(ProxySetting._fromMap);
+    return _channel.invokeMapMethod<String, dynamic>('getProxySetting').then(ProxySetting._fromMap);
   }
 }
 
