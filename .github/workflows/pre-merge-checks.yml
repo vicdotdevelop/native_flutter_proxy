@@ -1,0 +1,71 @@
+name: Pre-merge checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  test-publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+          channel: 'stable'
+
+      # Cache Flutter dependencies to speed up workflow
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      # Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Run tests
+      - name: Run tests
+        run: flutter test
+
+      # Static code analysis
+      - name: Analyze code
+        run: flutter analyze
+
+      # Verify package format is correct
+      - name: Format check
+        run: flutter format --set-exit-if-changed .
+
+      # Verify package
+      - name: Verify package
+        run: flutter pub publish --dry-run
+
+      # Check if package can be published
+      - name: Check publication readiness
+        run: |
+          ISSUES=$(flutter pub publish --dry-run 2>&1 | grep -i "error\|warning" || true)
+          if [ ! -z "$ISSUES" ]; then
+            echo "Publication issues found:"
+            echo "$ISSUES"
+            echo "Please fix these issues before merging."
+            exit 1
+          else
+            echo "Package is ready for publication! ✅"
+          fi
