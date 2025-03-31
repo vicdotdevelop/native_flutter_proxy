@@ -59,13 +59,4 @@ jobs:
 
       # Check if package can be published
       - name: Check publication readiness
-        run: |
-          ISSUES=$(flutter pub publish --dry-run 2>&1 | grep -i "error\|warning" || true)
-          if [ ! -z "$ISSUES" ]; then
-            echo "Publication issues found:"
-            echo "$ISSUES"
-            echo "Please fix these issues before merging."
-            exit 1
-          else
-            echo "Package is ready for publication! ✅"
-          fi
+        run: flutter pub publish --dry-run
