@@ -10,7 +10,7 @@ You should add the following to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  native_flutter_proxy: ^0.1.14
+  native_flutter_proxy: latest
 ```
 
 
