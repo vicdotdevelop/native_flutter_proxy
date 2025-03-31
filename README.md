@@ -56,7 +56,3 @@ Android and/or iOS.
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
-
-##Credits
-
-This project was forked from tzh2017 [pub.dev](https://pub.dev/packages/flutter_proxy) and enhance with some custom proxy classes which are making the assignment of proxies more convenient.

@@ -1,3 +1,7 @@
+## 0.2.2
+
+* Minor readme update
+
 ## 0.2.1
 
 * Minor readme update
