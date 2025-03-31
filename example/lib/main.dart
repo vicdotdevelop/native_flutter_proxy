@@ -1,5 +1,4 @@
 // ignore_for_file: unused_local_variable
-
 import 'package:flutter/material.dart';
 import 'package:native_flutter_proxy/native_flutter_proxy.dart';
 
@@ -12,13 +11,15 @@ void main() async {
   var enabled = false;
   String? host;
   int? port;
+
   try {
     final settings = await NativeProxyReader.proxySetting;
     enabled = settings.enabled;
     host = settings.host;
     port = settings.port;
   } catch (e) {
-    print(e);
+    // Using debugPrint instead of print for production code
+    debugPrint('Error fetching proxy settings: $e');
   }
 
   // Enable the proxy if it is enabled and the host is not null.
@@ -27,22 +28,36 @@ void main() async {
     debugPrint('proxy enabled');
   }
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
+/// The main application widget.
+///
+/// This widget is the root of the application.
 class MyApp extends StatelessWidget {
+  /// Creates a new instance of [MyApp].
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
+/// A widget that displays the home page of the application.
+///
+/// This widget is stateful and keeps track of a counter value.
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key, required this.title});
+  /// Creates a new instance of [MyHomePage].
+  ///
+  /// The [title] parameter is required and displayed in the app bar.
+  const MyHomePage({required this.title, super.key});
+
+  /// The title displayed in the app bar.
   final String title;
 
   @override
@@ -52,6 +67,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int counter = 0;
 
+  /// Increments the counter value.
   void _incrementCounter() => setState(() => counter++);
 
   @override
@@ -62,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('You have pushed the button this many times:'),
+            const Text('You have pushed the button this many times:'),
             Text(
               '$counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -73,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
