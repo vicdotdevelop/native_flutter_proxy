@@ -1,0 +1,23 @@
+.dart_tool/
+.idea/
+.vscode/
+build/
+.packages
+pubspec.lock
+.DS_Store
+.pub/
+.git/
+.github/
+.gitignore
+.travis/
+.travis.yml
+test/
+android/.idea
+example/build/
+example/.dart_tool/
+example/.packages
+example/pubspec.lock
+
+# Don't exclude these files even though they are in .gitignore
+!.idea/codeStyleConfig.xml
+!.vscode/settings.json
