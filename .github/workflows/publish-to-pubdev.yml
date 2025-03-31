@@ -1,0 +1,69 @@
+name: Publish to Pub.dev
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # This triggers the action for tags like v1.0.0, v2.3.4, etc.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetches all history for all tags and branches
+
+      # Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.0'  # Specify exact version instead of just 'stable'
+          channel: 'stable'
+
+      # Cache Flutter dependencies to speed up workflow
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      # Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Parse the tag to get the version without 'v' prefix
+      - name: Extract version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      # Verify the pubspec version matches the tag
+      - name: Verify version
+        run: |
+          echo "Tag version: $VERSION"
+          PUBSPEC_VERSION=$(grep -m 1 'version:' pubspec.yaml | awk '{print $2}')
+          echo "Pubspec version: $PUBSPEC_VERSION"
+          if [ "$VERSION" != "$PUBSPEC_VERSION" ]; then
+            echo "Error: The version in pubspec.yaml ($PUBSPEC_VERSION) does not match the tag version ($VERSION)"
+            exit 1
+          fi
+
+      # Publish to pub.dev
+      - name: Publish to Pub.dev
+        env:
+          PUB_DEV_TOKEN: ${{ secrets.PUB_DEV_TOKEN }}
+        run: |
+          # Configure Pub credentials
+          mkdir -p ~/.pub-cache
+          echo "$PUB_DEV_TOKEN" > ~/.pub-cache/credentials.json
+          # Publish the package
+          flutter pub publish --force
+          
+      # Clean up after publish
+      - name: Clean up
+        run: |
+          rm -f ~/.pub-cache/credentials.json
