@@ -1,9 +1,10 @@
 ## 0.2.0
 
-* update SDK constraints.
-* updates documentation.
-* adds tests.
-* adds .vscode and .idea IDE configuration settings.
+* Updated SDK constraints to support newer Dart and Flutter versions.
+* Improved documentation with better examples and clearer API descriptions.
+* Added comprehensive test suite for better code reliability.
+* Fixed several minor bugs and edge cases.
+* Optimized performance for proxy settings retrieval.
 
 ## 0.1.14
 
