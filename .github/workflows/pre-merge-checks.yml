@@ -51,7 +51,7 @@ jobs:
 
       # Verify package format is correct
       - name: Format check
-        run: flutter format --set-exit-if-changed .
+        run: dart format --set-exit-if-changed .
 
       # Verify package
       - name: Verify package
