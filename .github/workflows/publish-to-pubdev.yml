@@ -13,11 +13,20 @@ jobs:
       id-token: write # Required for authentication using OIDC
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: dart-lang/setup-dart@v1
-      - name: Install dependencies
+      - uses: actions/checkout@v4
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.2'
+          channel: 'stable'
+      - name: Install dependencies 📦
         run: flutter pub get
-      # Here you can insert custom steps you need
-      # - run: dart tool/generate-code.dart
+      - name: Analyze 🔍
+        run: flutter analyze
+      - name: Check Publish Warnings 🙏🏽
+        run: dart pub publish --dry-run
+      - name: Clean example project 🧹
+        run: cd example && flutter clean .
+      - uses: dart-lang/setup-dart@v1
       - name: Publish
         run: flutter pub publish --force
