@@ -1,3 +1,5 @@
+[![Pub Version](https://img.shields.io/pub/v/native_flutter_proxy)](https://pub.dev/packages/native_flutter_proxy)
+
 # native_flutter_proxy
 
 A flutter plugin to read network proxy info from native. It can be used to set up the network proxy for flutter.
