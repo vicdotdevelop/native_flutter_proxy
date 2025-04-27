@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - native_flutter_proxy (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - native_flutter_proxy (from `.symlinks/plugins/native_flutter_proxy/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  native_flutter_proxy:
+    :path: ".symlinks/plugins/native_flutter_proxy/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  native_flutter_proxy: 9d5ce4f6db3e1bf1e0c796020393f6500abd3126
+
+PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
+
+COCOAPODS: 1.15.2
