@@ -29,12 +29,12 @@ abstract final class NativeProxyReader {
   /// Register callback, when the system proxy is changed.
   /// This is the only way to use a proxy specified by PAC.
   static void setProxyChangedCallback(Future<dynamic> Function(ProxySetting)? handler) {
-    _channel..invokeMethod('setProxyChangeListenerEnabled', [handler != null])
-    ..setMethodCallHandler((call) async {
-      switch (call.method) {
-        case 'proxyChangedCallback':
-          if (handler != null) await handler(await proxySetting);
-        default: throw MissingPluginException('notImplemented');
+    _channel.setMethodCallHandler((call) async {
+      if (handler != null && call.method == 'proxyChangedCallback' && call.arguments is Map<Object?, Object?>) {
+        final map = (call.arguments as Map<Object?, Object?>).cast<String, dynamic>();
+        await handler(ProxySetting._fromMap(map));
+      } else {
+        throw MissingPluginException('notImplemented');
       }
     });
   }
