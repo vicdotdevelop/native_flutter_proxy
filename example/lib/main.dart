@@ -14,6 +14,7 @@ void main() async {
 
   try {
     final settings = await NativeProxyReader.proxySetting;
+    NativeProxyReader.setProxyChangedCallback((a) async => debugPrint('Callback for proxy change'));
     enabled = settings.enabled;
     host = settings.host;
     port = settings.port;
