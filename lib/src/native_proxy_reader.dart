@@ -25,6 +25,21 @@ abstract final class NativeProxyReader {
   static Future<ProxySetting> get proxySetting async {
     return _channel.invokeMapMethod<String, dynamic>('getProxySetting').then(ProxySetting._fromMap);
   }
+
+  /// Register callback, when the system proxy is changed.
+  /// This is the only way to use a proxy specified by PAC.
+  static void setProxyChangedCallback(Future<dynamic> Function(ProxySetting)? handler) {
+    _channel.setMethodCallHandler((call) async {
+      if (handler != null &&
+          call.method == 'proxyChangedCallback' &&
+          call.arguments is Map<Object?, Object?>) {
+        final map = (call.arguments as Map<Object?, Object?>).cast<String, dynamic>();
+        await handler(ProxySetting._fromMap(map));
+      } else {
+        throw MissingPluginException('notImplemented');
+      }
+    });
+  }
 }
 
 /// {@template proxy_setting}

@@ -15,6 +15,8 @@ device proxy info.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
+  s.frameworks = 'SystemConfiguration'
+  s.weak_frameworks = 'Network'
   s.ios.deployment_target = '8.0'
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
