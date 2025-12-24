@@ -12,9 +12,11 @@ void main() async {
   String? error;
 
   try {
-    final settings = await NativeProxyReader.proxySetting;
-    NativeProxyReader.setProxyChangedCallback((a) async => debugPrint('Callback for proxy change'));
     ProxySetting settings = await NativeProxyReader.proxySetting;
+    NativeProxyReader.setProxyChangedCallback((_) async {
+      debugPrint('Callback for proxy change');
+    });
+
     enabled = settings.enabled;
     host = settings.host;
     port = settings.port;
