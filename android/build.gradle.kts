@@ -1,10 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
-    id("dev.flutter.flutter-gradle-plugin")
 }
 
 allprojects {
@@ -30,8 +28,7 @@ android {
     sourceSets["main"].java.srcDirs("src/main/kotlin")
 
     defaultConfig {
-        minSdk = flutter.minSdkVersion
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        minSdk = 23
     }
 
     lint {
