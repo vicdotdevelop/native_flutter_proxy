@@ -6,11 +6,7 @@ import 'info_pill.dart';
 import 'status_dot.dart';
 
 class StatusCard extends StatelessWidget {
-  const StatusCard({
-    super.key,
-    required this.info,
-    required this.statusColor,
-  });
+  const StatusCard({super.key, required this.info, required this.statusColor});
 
   final ProxyInfo info;
   final Color statusColor;
@@ -41,10 +37,7 @@ class StatusCard extends StatelessWidget {
               StatusDot(color: statusColor, size: 14),
               const SizedBox(width: 12),
               Expanded(
-                child: Text(
-                  info.statusTitle,
-                  style: textTheme.headlineMedium,
-                ),
+                child: Text(info.statusTitle, style: textTheme.headlineMedium),
               ),
             ],
           ),

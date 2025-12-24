@@ -16,35 +16,31 @@ class App extends StatelessWidget {
     const onSurface = Color(0xFF201A17);
 
     final textTheme = ThemeData.light().textTheme.copyWith(
-          headlineLarge: const TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.6,
-            color: onSurface,
-          ),
-          headlineMedium: const TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.2,
-            color: onSurface,
-          ),
-          titleMedium: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.3,
-            color: onSurface,
-          ),
-          bodyLarge: const TextStyle(
-            fontSize: 16,
-            height: 1.5,
-            color: onSurface,
-          ),
-          bodyMedium: const TextStyle(
-            fontSize: 14,
-            height: 1.45,
-            color: Color(0xFF5A4A42),
-          ),
-        );
+      headlineLarge: const TextStyle(
+        fontSize: 40,
+        fontWeight: FontWeight.w600,
+        letterSpacing: -0.6,
+        color: onSurface,
+      ),
+      headlineMedium: const TextStyle(
+        fontSize: 26,
+        fontWeight: FontWeight.w600,
+        letterSpacing: -0.2,
+        color: onSurface,
+      ),
+      titleMedium: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.3,
+        color: onSurface,
+      ),
+      bodyLarge: const TextStyle(fontSize: 16, height: 1.5, color: onSurface),
+      bodyMedium: const TextStyle(
+        fontSize: 14,
+        height: 1.45,
+        color: Color(0xFF5A4A42),
+      ),
+    );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

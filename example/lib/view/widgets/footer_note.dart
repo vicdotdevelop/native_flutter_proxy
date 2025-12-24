@@ -13,9 +13,6 @@ class FooterNote extends StatelessWidget {
         ? 'NativeProxyReader returned an error. Check the logs for details.'
         : 'Powered by NativeProxyReader and applied to the app at launch.';
 
-    return Text(
-      footerText,
-      style: Theme.of(context).textTheme.bodyMedium,
-    );
+    return Text(footerText, style: Theme.of(context).textTheme.bodyMedium);
   }
 }

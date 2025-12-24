@@ -14,8 +14,9 @@ class InfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseColor =
-        highlight ? const Color(0xFF1F6F6D) : const Color(0xFF7A6257);
+    final baseColor = highlight
+        ? const Color(0xFF1F6F6D)
+        : const Color(0xFF7A6257);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -44,11 +45,7 @@ class InfoPill extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: Color(0xFF1C1A17),
               fontFamily: 'Courier New',
-              fontFamilyFallback: [
-                'Menlo',
-                'Monaco',
-                'Courier',
-              ],
+              fontFamilyFallback: ['Menlo', 'Monaco', 'Courier'],
             ),
           ),
         ],

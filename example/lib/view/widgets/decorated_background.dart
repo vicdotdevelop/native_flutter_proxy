@@ -10,10 +10,7 @@ class DecoratedBackground extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFF9F1E8),
-            Color(0xFFEFE1D3),
-          ],
+          colors: [Color(0xFFF9F1E8), Color(0xFFEFE1D3)],
         ),
       ),
       child: const Stack(
@@ -21,26 +18,17 @@ class DecoratedBackground extends StatelessWidget {
           Positioned(
             right: -60,
             top: -40,
-            child: _SoftOrb(
-              color: Color(0xFFF5C48A),
-              size: 180,
-            ),
+            child: _SoftOrb(color: Color(0xFFF5C48A), size: 180),
           ),
           Positioned(
             left: -40,
             bottom: 40,
-            child: _SoftOrb(
-              color: Color(0xFF9FC7B3),
-              size: 160,
-            ),
+            child: _SoftOrb(color: Color(0xFF9FC7B3), size: 160),
           ),
           Positioned(
             right: 20,
             bottom: -60,
-            child: _SoftOrb(
-              color: Color(0xFFD8A3A1),
-              size: 200,
-            ),
+            child: _SoftOrb(color: Color(0xFFD8A3A1), size: 200),
           ),
         ],
       ),

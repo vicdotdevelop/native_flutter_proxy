@@ -42,15 +42,13 @@ class _ProxyScreenState extends State<ProxyScreen>
       parent: _controller,
       curve: const Interval(0.5, 1.0, curve: Curves.easeOut),
     );
-    _cardSlide = Tween<Offset>(
-      begin: const Offset(0, 0.08),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.2, 0.9, curve: Curves.easeOutCubic),
-      ),
-    );
+    _cardSlide = Tween<Offset>(begin: const Offset(0, 0.08), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: const Interval(0.2, 0.9, curve: Curves.easeOutCubic),
+          ),
+        );
     _controller.forward();
   }
 
@@ -63,8 +61,9 @@ class _ProxyScreenState extends State<ProxyScreen>
   @override
   Widget build(BuildContext context) {
     final info = widget.info;
-    final statusColor =
-        info.applied ? const Color(0xFF1F6F6D) : const Color(0xFFC45B3A);
+    final statusColor = info.applied
+        ? const Color(0xFF1F6F6D)
+        : const Color(0xFFC45B3A);
 
     return Scaffold(
       body: Stack(

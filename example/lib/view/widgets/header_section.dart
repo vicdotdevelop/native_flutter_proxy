@@ -12,8 +12,9 @@ class HeaderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final status = info.applied ? 'ACTIVE' : 'STANDBY';
-    final statusColor =
-        info.applied ? const Color(0xFF1F6F6D) : const Color(0xFFC45B3A);
+    final statusColor = info.applied
+        ? const Color(0xFF1F6F6D)
+        : const Color(0xFFC45B3A);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
