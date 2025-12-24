@@ -1,3 +1,6 @@
+## 0.3.1
+* Update changelog
+
 ## 0.3.0
 * Support of latest Android and iOS
 * Improvements on example app

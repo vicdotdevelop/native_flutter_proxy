@@ -2,9 +2,13 @@
 
 # native_flutter_proxy
 
-A flutter plugin to read network proxy info from native. It can be used to set up the network proxy for flutter.
-The plugin provides classes to provide the HttpOverrides.global property with a proxy setting.
-This ensures that the gap of flutter in supporting proxy communication is filled by a convenient solution.
+A Flutter plugin to read system proxy settings from native code and apply them in Dart.
+Use it to configure `HttpOverrides.global` with either the system proxy or a custom proxy.
+
+Key features:
+- Read system proxy settings on Android and iOS.
+- Auto-update when the system proxy changes via `NativeProxyReader.setProxyChangedCallback`.
+- Apply a custom proxy using `CustomProxy` / `CustomProxyHttpOverride`.
 
 ## Installing
 
@@ -12,49 +16,57 @@ You should add the following to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  native_flutter_proxy: latest
+  native_flutter_proxy: ^0.3.0
 ```
 
-
-## Example
-
-- Step 1: make your main()-method async
-- Step 2: add WidgetsFlutterBinding.ensureInitialized(); to your async-main()-method
-- Step 3: read the proxy settings from the wifi profile natively
-- Step 4: if enabled, override the proxy settings with the CustomProxy.
+## Quick Start
 
 ```dart
+import 'dart:io';
+
+import 'package:flutter/widgets.dart';
+import 'package:native_flutter_proxy/native_flutter_proxy.dart';
+
+Future<void> applyProxy(ProxySetting settings) async {
+  if (!settings.enabled || settings.host == null) {
+    HttpOverrides.global = null;
+    return;
+  }
+
+  CustomProxy(ipAddress: settings.host!, port: settings.port).enable();
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  bool enabled = false;
-  String? host;
-  int? port;
   try {
-    ProxySetting settings = await NativeProxyReader.proxySetting;
-    enabled = settings.enabled;
-    host = settings.host;
-    port = settings.port;
+    final settings = await NativeProxyReader.proxySetting;
+    await applyProxy(settings);
   } catch (e) {
     print(e);
   }
-  if (enabled && host != null) {
-    final proxy = CustomProxy(ipAddress: host, port: port);
-    proxy.enable();
-    print("proxy enabled");
-  }
+
+  NativeProxyReader.setProxyChangedCallback((settings) async {
+    await applyProxy(settings);
+  });
 
   runApp(MyApp());
 }
 ```
 
-## Getting Started
+## Auto-update on proxy changes
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+`NativeProxyReader.setProxyChangedCallback` is invoked whenever the system proxy
+changes, so your app can react immediately (including PAC-based proxies on
+Android). Register it once at startup and update your overrides there.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Manual proxy (optional)
+
+If you want to force a proxy (e.g. for debugging), you can set it directly:
+
+```dart
+final proxy = CustomProxy(ipAddress: '127.0.0.1', port: 8888);
+proxy.enable();
+```
+
+For a full example, see `example/lib/main.dart`.
