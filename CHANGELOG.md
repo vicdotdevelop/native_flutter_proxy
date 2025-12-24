@@ -1,4 +1,4 @@
-## 3.0.0
+## 0.3.0
 * Support of latest Android and iOS
 * Improvements on example app
 
