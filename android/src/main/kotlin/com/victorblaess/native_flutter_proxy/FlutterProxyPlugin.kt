@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.net.Proxy
 import android.net.ProxyInfo
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat.getSystemService
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -103,7 +104,12 @@ class FlutterProxyPlugin : FlutterPlugin, MethodCallHandler, BroadcastReceiver()
                 return null
             }
 
-            info = extras.getParcelable("android.intent.extra.PROXY_INFO", ProxyInfo::class.java)
+            info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                extras.getParcelable("android.intent.extra.PROXY_INFO", ProxyInfo::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                extras.getParcelable("android.intent.extra.PROXY_INFO") as? ProxyInfo
+            }
         }
 
         proxySetting["host"] = info!!.host

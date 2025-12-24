@@ -1,6 +1,7 @@
 ## 0.3.0
 * Support of latest Android and iOS
 * Improvements on example app
+* Updates from RandomModderJDK
 
 ## 0.2.3
 

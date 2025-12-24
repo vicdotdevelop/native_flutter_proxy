@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'data/models/proxy_info.dart';
@@ -6,9 +7,9 @@ import 'view/screens/proxy_screen.dart';
 export 'data/models/proxy_info.dart';
 
 class App extends StatelessWidget {
-  const App({super.key, required this.proxyInfo});
+  const App({super.key, required this.proxyInfoListenable});
 
-  final ProxyInfo proxyInfo;
+  final ValueListenable<ProxyInfo> proxyInfoListenable;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,12 @@ class App extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFFF7EFE6),
         textTheme: textTheme,
       ),
-      home: ProxyScreen(info: proxyInfo),
+      home: ValueListenableBuilder<ProxyInfo>(
+        valueListenable: proxyInfoListenable,
+        builder: (context, info, _) {
+          return ProxyScreen(info: info);
+        },
+      ),
     );
   }
 }
