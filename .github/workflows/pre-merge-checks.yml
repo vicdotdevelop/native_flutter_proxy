@@ -17,7 +17,7 @@ jobs:
     steps:
       # Checkout repository
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -25,12 +25,12 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'  # Specify exact version instead of just 'stable'
+          flutter-version: '3.38.5'  # Specify exact version instead of just 'stable'
           channel: 'stable'
 
       # Cache Flutter dependencies to speed up workflow
       - name: Cache Flutter dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.pub-cache
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
