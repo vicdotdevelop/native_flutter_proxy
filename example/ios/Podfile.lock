@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/native_flutter_proxy/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  native_flutter_proxy: bad4baa2257a3cf12cf716a765b5442c10e4e99e
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  native_flutter_proxy: a96434620247e3a0e3ebffde6dae1c31e2745256
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.16.2

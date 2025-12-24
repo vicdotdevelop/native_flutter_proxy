@@ -71,8 +71,8 @@ class CustomProxy {
     // Split the proxy string into parts and extract the IP address and port number if available
     // Format: "ipAddress:port"
     final proxyParts = proxy.split(':');
-    final ipAddress = proxyParts[0];
-    final port = proxyParts.isNotEmpty ? int.tryParse(proxyParts[1]) : null;
+    final ipAddress = proxyParts.first;
+    final port = proxyParts.length > 1 ? int.tryParse(proxyParts[1]) : null;
 
     return CustomProxy(ipAddress: ipAddress, port: port);
   }

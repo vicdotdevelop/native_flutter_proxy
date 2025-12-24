@@ -1,3 +1,0 @@
-dependency_overrides:
-  native_flutter_proxy:
-    path: ../

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-/// {@template custom_proxy}
+/// {@template native_proxy_reader}
 /// A class to read network proxy settings from native platform code.
 ///
 /// This class provides functionality to retrieve proxy settings like host and
@@ -18,7 +18,7 @@ import 'package:flutter/services.dart';
 /// ```
 /// {@endtemplate}
 abstract final class NativeProxyReader {
-  /// Method channel for native platform communication.ƒ
+  /// Method channel for native platform communication.
   static const _channel = MethodChannel('native_flutter_proxy');
 
   /// Get the proxy settings from the native platform.

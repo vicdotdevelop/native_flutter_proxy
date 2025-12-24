@@ -1,6 +1,6 @@
 name: native_flutter_proxy
 description: A flutter plugin to read and set network proxy info from native.
-version: 0.2.3
+version: 0.3.0
 homepage: https://github.com/victorblaess/native_flutter_proxy
 
 environment:
@@ -14,7 +14,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^7.0.0
+  very_good_analysis: ^10.0.0
 
 flutter:
   plugin:
