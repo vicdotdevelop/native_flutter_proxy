@@ -1,8 +1,10 @@
-val kotlinVersion: String by project
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id("com.android.application")
+    id("kotlin-android")
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id("dev.flutter.flutter-gradle-plugin")
 }
 
 allprojects {
@@ -17,22 +19,18 @@ group = "com.victorblaess.native_flutter_proxy"
 
 android {
     namespace = "com.victorblaess.native_flutter_proxy"
-    ndkVersion = "26.3.11579264"
-    compileSdk = 35
+    ndkVersion = "27.3.13750724"
+    compileSdk = 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-
     sourceSets["main"].java.srcDirs("src/main/kotlin")
 
     defaultConfig {
-        minSdk = 16
+        minSdk = flutter.minSdkVersion
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,7 +39,8 @@ android {
     }
 }
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }

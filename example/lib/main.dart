@@ -1,4 +1,3 @@
-// ignore_for_file: unused_local_variable
 import 'package:flutter/material.dart';
 import 'package:native_flutter_proxy/native_flutter_proxy.dart';
 
@@ -24,7 +23,7 @@ void main() async {
 
   // Enable the proxy if it is enabled and the host is not null.
   if (enabled && host != null) {
-    final proxy = CustomProxy(ipAddress: host, port: port).enable();
+    CustomProxy(ipAddress: host, port: port).enable();
     debugPrint('proxy enabled');
   }
 
