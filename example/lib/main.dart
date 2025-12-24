@@ -9,10 +9,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final proxyInfoNotifier = ValueNotifier<ProxyInfo>(
-    const ProxyInfo(
-      enabled: false,
-      applied: false,
-    ),
+    const ProxyInfo(enabled: false, applied: false),
   );
 
   Future<void> updateProxyInfo(ProxySetting settings) async {

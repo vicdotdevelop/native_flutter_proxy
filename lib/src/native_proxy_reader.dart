@@ -30,7 +30,9 @@ abstract final class NativeProxyReader {
   /// This is the only way to use a proxy specified by PAC.
   static void setProxyChangedCallback(Future<dynamic> Function(ProxySetting)? handler) {
     _channel.setMethodCallHandler((call) async {
-      if (handler != null && call.method == 'proxyChangedCallback' && call.arguments is Map<Object?, Object?>) {
+      if (handler != null &&
+          call.method == 'proxyChangedCallback' &&
+          call.arguments is Map<Object?, Object?>) {
         final map = (call.arguments as Map<Object?, Object?>).cast<String, dynamic>();
         await handler(ProxySetting._fromMap(map));
       } else {
