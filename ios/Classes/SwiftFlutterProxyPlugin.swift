@@ -21,7 +21,19 @@ public class SwiftFlutterProxyPlugin: NSObject, FlutterPlugin {
   private var proxyPollTimer: DispatchSourceTimer?
   private let proxyStateLock = NSLock()
   private var lastProxyKey: String?
-  
+
+  struct ProxyInfo {
+    let host: String
+    let port: Int
+
+    var dictionary: NSDictionary {
+      return [
+        "host": host,
+        "port": port
+      ]
+    }
+  }
+
   /**
    * Registers the plugin with the Flutter plugin registrar.
    *
@@ -247,19 +259,104 @@ public class SwiftFlutterProxyPlugin: NSObject, FlutterPlugin {
    * @return A dictionary containing the proxy host and port, or nil if not available.
    */
   func getProxySetting() -> NSDictionary? {
-    guard let proxySettings = CFNetworkCopySystemProxySettings()?.takeUnretainedValue(),
-          let url = URL(string: "https://www.bing.com/") else {
-        return nil
+    guard let url = URL(string: "https://www.bing.com/") else {
+      return nil
     }
-    let proxies = CFNetworkCopyProxiesForURL((url as CFURL), proxySettings).takeUnretainedValue() as NSArray
-    guard let settings = proxies.firstObject as? NSDictionary,
-          let _ = settings.object(forKey: (kCFProxyTypeKey as String)) as? String else {
-        return nil
+    return resolve(url: url)?.dictionary
+  }
+
+  private func resolve(url: URL) -> ProxyInfo? {
+    guard let proxySettings = CFNetworkCopySystemProxySettings()?.takeUnretainedValue(),
+          let proxySettingsDict = proxySettings as NSDictionary? else {
+      return nil
     }
 
-    if let hostName = settings.object(forKey: (kCFProxyHostNameKey as String)), let port = settings.object(forKey: (kCFProxyPortNumberKey as String)) {
-        return ["host": hostName, "port": port]
+    if proxySettingsDict[kCFNetworkProxiesProxyAutoConfigEnable] as? Bool == true {
+      if let pacContent = proxySettingsDict[kCFNetworkProxiesProxyAutoConfigJavaScript] as? String,
+         let proxyInfo = self.handlePacContent(pacContent: pacContent, url: url) {
+        return proxyInfo
+      }
+
+      if let pacUrl = proxySettingsDict[kCFNetworkProxiesProxyAutoConfigURLString] as? String,
+         let proxyInfo = SwiftFlutterProxyPlugin.handlePacUrl(pacUrl: pacUrl, url: url) {
+        return proxyInfo
+      }
     }
+
+    if proxySettingsDict[kCFNetworkProxiesHTTPEnable] as? Bool == true ||
+        proxySettingsDict["HTTPSEnable"] as? Bool == true {
+      if let proxyInfo = self.handleHTTPProxy(proxySettings: proxySettings, url: url) {
+        return proxyInfo
+      }
+    }
+
+    return nil
+  }
+
+  private func handleHTTPProxy(proxySettings: CFDictionary, url: URL) -> ProxyInfo? {
+    let proxies = CFNetworkCopyProxiesForURL(url as CFURL,
+                                             proxySettings).takeUnretainedValue() as? [[CFString: Any]]
+
+    return SwiftFlutterProxyPlugin.retrieveHTTPProxyFrom(proxies: proxies)
+  }
+
+  private func handlePacContent(pacContent: String, url: URL) -> ProxyInfo? {
+    let proxies = CFNetworkCopyProxiesForAutoConfigurationScript(pacContent as CFString,
+                                                                 CFURLCreateWithString(kCFAllocatorDefault,
+                                                                                       url.absoluteString as CFString,
+                                                                                       nil),
+                                                                 nil)?.takeUnretainedValue() as? [[CFString: Any]]
+
+    return SwiftFlutterProxyPlugin.retrieveHTTPProxyFrom(proxies: proxies)
+  }
+
+  private static var proxyCache: [String: ProxyInfo] = [:]
+  private static func handlePacUrl(pacUrl: String, url: URL) -> ProxyInfo? {
+    guard let pacUrl = CFURLCreateWithString(kCFAllocatorDefault, pacUrl as CFString?, nil),
+          let targetUrl = CFURLCreateWithString(kCFAllocatorDefault, url.absoluteString as CFString?, nil) else {
+      return nil
+    }
+
+    var info = url.absoluteString
+
+    withUnsafeMutablePointer(to: &info, { infoPointer in
+      var context = CFStreamClientContext(version: 0,
+                                          info: infoPointer,
+                                          retain: nil,
+                                          release: nil,
+                                          copyDescription: nil)
+
+      let runLoopSource = CFNetworkExecuteProxyAutoConfigurationURL(pacUrl, targetUrl, { client, proxies, _ in
+        let url = client.assumingMemoryBound(to: String.self).pointee
+
+        SwiftFlutterProxyPlugin.proxyCache[url] = SwiftFlutterProxyPlugin
+          .retrieveHTTPProxyFrom(proxies: proxies as? [[CFString: Any]])
+        CFRunLoopStop(CFRunLoopGetCurrent())
+      }, &context)
+
+      CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, CFRunLoopMode.defaultMode)
+      CFRunLoopRun()
+      CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, CFRunLoopMode.defaultMode)
+    })
+
+    return SwiftFlutterProxyPlugin.proxyCache[url.absoluteString]
+  }
+
+  private static func retrieveHTTPProxyFrom(proxies: [[CFString: Any]]?) -> ProxyInfo? {
+    guard let proxies else {
+      return nil
+    }
+
+    for proxy in proxies {
+      let proxyType = proxy[kCFProxyTypeKey] as? String
+      if proxyType == kCFProxyTypeHTTP as String || proxyType == kCFProxyTypeHTTPS as String {
+        if let host = proxy[kCFProxyHostNameKey] as? String,
+           let port = proxy[kCFProxyPortNumberKey] as? Int {
+          return ProxyInfo(host: host, port: port)
+        }
+      }
+    }
+
     return nil
   }
 }
