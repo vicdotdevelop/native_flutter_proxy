@@ -25,7 +25,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    sourceSets["main"].java.srcDirs("src/main/kotlin")
+    sourceSets.named("main") {
+        kotlin.directories += "src/main/kotlin"
+    }
 
     defaultConfig {
         minSdk = 23
